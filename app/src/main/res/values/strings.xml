@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Alkolmetre</string>
+    <string name="error_message">Results could not be fetched!</string>
+    <string name="settings">Settings</string>
+    <string name="logout">Logout</string>
+    <string name="category">CATEGORIES</string>
+    <string name="beer">BEER</string>
+    <string name="wine">WINE</string>
+    <string name="sprits">SPRITS</string>
+    <string name="search_in_detail">Search</string>
+</resources>
