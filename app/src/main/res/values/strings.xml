@@ -8,4 +8,6 @@
     <string name="wine">WINE</string>
     <string name="sprits">SPRITS</string>
     <string name="search_in_detail">Search</string>
+    <string name="title_activity_alcohol_list">AlcoholListActivity</string>
+    <string name="txt_alcohol_list_results">Results</string>
 </resources>
