@@ -67,7 +67,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int selectedItemIndex = item.getItemId();
+        int selectedItemIndexId = item.getItemId();
+        if (selectedItemIndexId == R.id.action_search) {
+            Intent startSettingsActivity = new Intent(this, SettingsActivity.class);
+            startActivity(startSettingsActivity);
+            return true;
+        }
+        // TODO: logout will be implemented in here. else if(selectedItemIndexId = logout)
         return super.onOptionsItemSelected(item);
     }
 }
