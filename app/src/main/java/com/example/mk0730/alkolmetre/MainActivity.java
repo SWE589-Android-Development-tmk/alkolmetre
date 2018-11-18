@@ -41,12 +41,13 @@ public class MainActivity extends AppCompatActivity {
         });
         sprits_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                buildSearch("sprints");
+                buildSearch("sprits");
             }
         });
         search_detail_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+                Intent intent = new Intent(MainActivity.this, SearchInDetailActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -54,8 +55,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void buildSearch(String category) {
         String alchoholFilter = networkUtils.setCategory(category).build();
-        Intent intent = new Intent(MainActivity.this, null);
+        Intent intent = new Intent(MainActivity.this, AlcoholListActivity.class);
         intent.putExtra(Intent.EXTRA_TEXT, alchoholFilter);
+        startActivity(intent);
     }
 
 
