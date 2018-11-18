@@ -10,18 +10,20 @@ import android.view.ViewGroup;
 import com.example.mk0730.alkolmetre.R;
 import com.example.mk0730.alkolmetre.lcbo.LcboApiResponse;
 import com.example.mk0730.alkolmetre.lcbo.LcboApiResponseResult;
+import com.squareup.moshi.JsonAdapter;
+import com.squareup.moshi.Moshi;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AlcoholAdapter extends RecyclerView.Adapter<AlcoholViewHolder> {
 
-    private List<LcboApiResponseResult> alcohols = new ArrayList<>();
+    private static List<LcboApiResponseResult> alcohols = new ArrayList<>();
     private ListItemClickListener onClickListener;
 
-//    public AlcoholAdapter(ListItemClickListener listener) {
-//        onClickListener = listener;
-//    }
+    public AlcoholAdapter(ListItemClickListener listener) {
+        onClickListener = listener;
+    }
 
     @NonNull
     @Override
@@ -31,8 +33,7 @@ public class AlcoholAdapter extends RecyclerView.Adapter<AlcoholViewHolder> {
         LayoutInflater inflater = LayoutInflater.from(context);
 
         View view = inflater.inflate(layoutId, viewGroup, false);
-        //AlcoholViewHolder viewHolder = new AlcoholViewHolder(view, onClickListener);
-        AlcoholViewHolder viewHolder = new AlcoholViewHolder(view);
+        AlcoholViewHolder viewHolder = new AlcoholViewHolder(view, onClickListener);
         return viewHolder;
     }
 
@@ -44,6 +45,10 @@ public class AlcoholAdapter extends RecyclerView.Adapter<AlcoholViewHolder> {
     @Override
     public int getItemCount() {
         return alcohols.size();
+    }
+
+    public static LcboApiResponseResult getItem(int index){
+        return alcohols.get(index);
     }
 
     public void setAlcohols(LcboApiResponse response) {

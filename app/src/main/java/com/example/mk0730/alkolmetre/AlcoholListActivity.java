@@ -16,6 +16,7 @@ import com.example.mk0730.alkolmetre.tasks.LcboApiTask;
 import com.example.mk0730.alkolmetre.utils.NetworkUtils;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URL;
 
 public class AlcoholListActivity extends AppCompatActivity
@@ -41,8 +42,7 @@ public class AlcoholListActivity extends AppCompatActivity
                 layoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
 
-        //AlcoholAdapter adapter = new AlcoholAdapter(this);
-        adapter = new AlcoholAdapter();
+        adapter = new AlcoholAdapter(this);
         recyclerView.setAdapter(adapter);
 
         Intent intent = getIntent();
@@ -63,13 +63,13 @@ public class AlcoholListActivity extends AppCompatActivity
 
     @Override
     public void onListItemClick(int clickedItemIndex) {
-//        Intent detailActivityIntent;
-//
-//        Log.v("MainActivity.onCreate", "Item#"+Integer.toString(clickedItemIndex));
-//
-//        detailActivityIntent = new Intent(AlcoholListActivity.this, DetailActivity.class);
-//        detailActivityIntent.putExtra(Intent.EXTRA_TEXT, mAdapter.getItem(clickedItemIndex));
-//
-//        startActivity(detailActivityIntent);
+        Intent detailActivityIntent;
+
+        Log.v("MainActivity.onCreate", "Item#"+Integer.toString(clickedItemIndex));
+
+        detailActivityIntent = new Intent(AlcoholListActivity.this, DetailActivity.class);
+        detailActivityIntent.putExtra(Intent.EXTRA_TEXT, clickedItemIndex);
+
+        startActivity(detailActivityIntent);
     }
 }

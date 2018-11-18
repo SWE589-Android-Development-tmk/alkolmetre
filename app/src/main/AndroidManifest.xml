@@ -36,6 +36,10 @@
         <activity
             android:name=".SearchInDetailActivity"
             android:label="@string/title_activity_search_in_detail"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".DetailActivity"
+            android:label="@string/title_activity_detail"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

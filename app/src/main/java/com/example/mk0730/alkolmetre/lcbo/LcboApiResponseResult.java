@@ -505,5 +505,4 @@ public class LcboApiResponseResult {
     public void setProductNo(Integer productNo) {
         this.productNo = productNo;
     }
-
 }
