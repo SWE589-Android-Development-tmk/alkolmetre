@@ -22,6 +22,7 @@ public class AlcoholListActivity extends AppCompatActivity
         implements ListItemClickListener {
 
     AlcoholFilter alcoholFilter;
+    AlcoholAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +37,12 @@ public class AlcoholListActivity extends AppCompatActivity
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
-        //DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), layoutManager.getOrientation());
-        //recyclerView.addItemDecoration(dividerItemDecoration);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                layoutManager.getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
 
-        AlcoholAdapter adapter = new AlcoholAdapter(this);
+        //AlcoholAdapter adapter = new AlcoholAdapter(this);
+        adapter = new AlcoholAdapter();
         recyclerView.setAdapter(adapter);
 
         Intent intent = getIntent();

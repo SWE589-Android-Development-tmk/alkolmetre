@@ -20,7 +20,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class LcboApiTask extends AsyncTask<String, Void, String[]> {
+public class LcboApiTask extends AsyncTask<String, Void, String> {
     private AlcoholAdapter adapter;
 
     public LcboApiTask(AlcoholAdapter adapter) {
@@ -28,7 +28,7 @@ public class LcboApiTask extends AsyncTask<String, Void, String[]> {
     }
 
     @Override
-    protected String[] doInBackground(String... strings) {
+    protected String doInBackground(String... strings) {
         HttpURLConnection urlConnection   = null;
         BufferedReader reader          = null;
         String 		      forecastJsonStr = null;
@@ -68,15 +68,15 @@ public class LcboApiTask extends AsyncTask<String, Void, String[]> {
             }
         }
 
-        return new String[]{forecastJsonStr};
+        return forecastJsonStr;
     }
 
     @Override
-    protected void onPostExecute(String[] result) {
+    protected void onPostExecute(String result) {
         super.onPostExecute(result);
 
         try {
-            adapter.setAlcohols(parse(result[0]));
+            adapter.setAlcohols(parse(result));
         }
         catch (Throwable e) {
             Log.v("LcboApiTask", e.getMessage());

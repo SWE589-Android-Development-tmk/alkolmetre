@@ -7,7 +7,15 @@
     <string name="beer">BEER</string>
     <string name="wine">WINE</string>
     <string name="sprits">SPRITS</string>
-    <string name="search_in_detail">Search</string>
+    <string name="search_in_detail">Search in Detail</string>
     <string name="title_activity_alcohol_list">AlcoholListActivity</string>
-    <string name="txt_alcohol_list_results">Results</string>
+    <string name="txt_alcohol_list_results">RESULTS</string>
+    <string name="title_activity_search_in_detail">SearchInDetailActivity</string>
+    <string name="search_in_detail_header_filter">Filter</string>
+    <string name="search_in_detail_header_order">Order</string>
+    <string name="search_in_detail_toggle_is_discontinued">is_discontinued</string>
+    <string name="search_in_detail_toggle_is_vqa">is_vqa</string>
+    <string name="search_in_detail_toggle_price">Price</string>
+    <string name="search_in_detail_toggle_alcohol_content">Alcohol Content</string>
+    <string name="search_in_detail_toggle_price_per_liter">Price Per Liter</string>
 </resources>

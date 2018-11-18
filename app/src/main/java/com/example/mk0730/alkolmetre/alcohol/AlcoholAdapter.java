@@ -16,13 +16,12 @@ import java.util.List;
 
 public class AlcoholAdapter extends RecyclerView.Adapter<AlcoholViewHolder> {
 
-    private LcboApiResponse response;
-    private List<Alcohol> alcohols;
+    private List<LcboApiResponseResult> alcohols = new ArrayList<>();
     private ListItemClickListener onClickListener;
 
-    public AlcoholAdapter(ListItemClickListener listener) {
-        onClickListener = listener;
-    }
+//    public AlcoholAdapter(ListItemClickListener listener) {
+//        onClickListener = listener;
+//    }
 
     @NonNull
     @Override
@@ -32,7 +31,8 @@ public class AlcoholAdapter extends RecyclerView.Adapter<AlcoholViewHolder> {
         LayoutInflater inflater = LayoutInflater.from(context);
 
         View view = inflater.inflate(layoutId, viewGroup, false);
-        AlcoholViewHolder viewHolder = new AlcoholViewHolder(view, onClickListener);
+        //AlcoholViewHolder viewHolder = new AlcoholViewHolder(view, onClickListener);
+        AlcoholViewHolder viewHolder = new AlcoholViewHolder(view);
         return viewHolder;
     }
 
@@ -43,16 +43,15 @@ public class AlcoholAdapter extends RecyclerView.Adapter<AlcoholViewHolder> {
 
     @Override
     public int getItemCount() {
-        return alcohols != null ? alcohols.size() : 0;
+        return alcohols.size();
     }
 
     public void setAlcohols(LcboApiResponse response) {
-        this.response = response;
-
-        alcohols = new ArrayList<>();
-        for (LcboApiResponseResult item : response.getResult()) {
-            Alcohol alcohol = new Alcohol(item.getId(), item.getImageUrl(), item.getName(), item.getOrigin());
-            alcohols.add(alcohol);
+        if (response == null){
+            alcohols.clear();
+        }
+        else {
+            alcohols = response.getResult();
         }
 
         notifyDataSetChanged();

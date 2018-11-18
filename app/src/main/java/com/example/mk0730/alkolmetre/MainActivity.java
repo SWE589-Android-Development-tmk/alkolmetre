@@ -41,12 +41,13 @@ public class MainActivity extends AppCompatActivity {
         });
         sprits_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                buildSearch("sprints");
+                buildSearch("sprits");
             }
         });
         search_detail_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+                Intent intent = new Intent(MainActivity.this, SearchInDetailActivity.class);
+                startActivity(intent);
             }
         });
 
