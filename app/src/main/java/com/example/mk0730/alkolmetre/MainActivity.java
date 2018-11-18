@@ -54,8 +54,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void buildSearch(String category) {
         String alchoholFilter = networkUtils.setCategory(category).build();
-        Intent intent = new Intent(MainActivity.this, null);
+        Intent intent = new Intent(MainActivity.this, AlcoholListActivity.class);
         intent.putExtra(Intent.EXTRA_TEXT, alchoholFilter);
+        startActivity(intent);
     }
 
 

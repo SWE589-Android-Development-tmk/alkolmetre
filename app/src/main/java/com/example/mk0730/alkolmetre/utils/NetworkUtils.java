@@ -18,17 +18,20 @@ import java.util.Scanner;
  */
 public class NetworkUtils {
 
-    final static String LCBO_BASE_URL =
-            "https://lcboapi.com/docs/v1";
+    private static Moshi moshi = new Moshi.Builder().build();
+
+    final static String LCBO_BASE_URL = "http://lcboapi.com/products";
 
     final static String PARAM_QUERY = "q";
+
+    final static String PARAM_CATEGORIES = "primary_category";
 
     /*
      * The sort field. One of price in cents, alcohol contents,
      * price per liter of alcohol in cents.
      * Ascending or descending order is specified by adding
      * .asc or .desc to the end of the attribute name.
-     * Example: lcboapi.com/products?order=id.desc
+     * LcboApiResponse: lcboapi.com/products?order=id.desc
      */
     final static String PARAM_SORT = "order";
     final static String[] SORT_PARAMETERS = {
@@ -62,21 +65,28 @@ public class NetworkUtils {
     }
 
     public String build(){
-        Moshi moshi = new Moshi.Builder().build();
         JsonAdapter<AlcoholFilter> jsonAdapter = moshi.adapter(AlcoholFilter.class);
         String alcoholFilter = jsonAdapter.toJson(this.filter);
+        return alcoholFilter;
+    }
+
+    public static AlcoholFilter parse(String json) throws IOException {
+        JsonAdapter<AlcoholFilter> jsonAdapter = moshi.adapter(AlcoholFilter.class);
+        AlcoholFilter alcoholFilter = jsonAdapter.fromJson(json);
         return alcoholFilter;
     }
 
     /**
      * Builds the URL used to query LCBO.
      *
-     * @param lcboSearchQuery The keyword that will be queried for.
+     * @param alcoholFilter The keyword that will be queried for.
      * @return The URL to use to query the weather server.
      */
-    public static URL buildUrl(String lcboSearchQuery) {
+    public static URL buildUrl(AlcoholFilter alcoholFilter) {
         Uri buildUri = Uri.parse(LCBO_BASE_URL).buildUpon()
-                .appendQueryParameter(PARAM_QUERY, lcboSearchQuery).build();
+                //.appendQueryParameter(PARAM_QUERY, alcoholFilter.getSearch())
+                .appendQueryParameter(PARAM_CATEGORIES, alcoholFilter.getCategory())
+                .build();
 
         URL url = null;
         try {
