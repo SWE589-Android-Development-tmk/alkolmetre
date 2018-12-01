@@ -3,11 +3,11 @@ package com.example.mk0730.alkolmetre;
 public class AlcoholFilter {
     String search;
     String category;
-    Boolean is_continued;
-    Boolean is_vqa;
-    Boolean order_price;
-    Boolean order_alcohol_content;
-    Boolean order_price_per_liter;
+    Boolean is_continued = false;
+    Boolean is_vqa = false;
+    Boolean order_price = false;
+    Boolean order_alcohol_content = false;
+    Boolean order_price_per_liter = false;
 
     public String getSearch() {
         return search;

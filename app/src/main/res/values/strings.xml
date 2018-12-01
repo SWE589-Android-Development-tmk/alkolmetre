@@ -6,11 +6,11 @@
     <string name="category">Categories</string>
     <string name="beer">BEER</string>
     <string name="wine">WINE</string>
-    <string name="sprits">SPRITS</string>
+    <string name="sprits">SPIRITS</string>
     <string name="search_in_detail">Search in Detail</string>
-    <string name="title_activity_alcohol_list">AlcoholListActivity</string>
-    <string name="txt_alcohol_list_results">Results</string>
-    <string name="title_activity_search_in_detail">SearchInDetailActivity</string>
+    <string name="title_activity_alcohol_list">Results</string>
+    <string name="txt_alcohol_list_results">We found %d items</string>
+    <string name="title_activity_search_in_detail">Search In Detail</string>
     <string name="search_in_detail_header_filter">Filter</string>
     <string name="search_in_detail_header_order">Order</string>
     <string name="search_in_detail_toggle_is_discontinued">is_discontinued</string>
@@ -18,7 +18,19 @@
     <string name="search_in_detail_toggle_price">Price</string>
     <string name="search_in_detail_toggle_alcohol_content">Alcohol Content</string>
     <string name="search_in_detail_toggle_price_per_liter">Price Per Liter</string>
-    <string name="title_activity_detail">DetailActivity</string>
+    <string name="title_activity_detail">Details</string>
     <string name="details">Details</string>
     <string name="product_details">Product Details</string>
+    <string name="search_in_detail_search">Search</string>
+    <string name="search_in_detail_select_category">Select a category</string>
+    <string name="detail_activity_alcohol_percentage">Alcohol Percentage: </string>
+    <string name="detail_activity_sugar_content">Sugar Content: </string>
+    <string name="detail_activity_release_date">Release Date: </string>
+    
+    <string-array name="categories">
+        <item>No category</item>
+        <item>Beer</item>
+        <item>Wine</item>
+        <item>Spirit</item>
+    </string-array>
 </resources>

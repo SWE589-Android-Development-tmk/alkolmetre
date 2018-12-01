@@ -22,12 +22,12 @@
     </android.support.design.widget.AppBarLayout>
 
     <TextView
+        android:id="@+id/txt_results_information"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="left"
-        android:text="@string/txt_alcohol_list_results"
         android:textStyle="bold"
-        android:textSize="30dp"
+        android:textSize="16dp"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"

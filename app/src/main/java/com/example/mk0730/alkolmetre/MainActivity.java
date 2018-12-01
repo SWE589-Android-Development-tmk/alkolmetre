@@ -8,9 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.mk0730.alkolmetre.utils.NetworkUtils;
-import com.squareup.moshi.JsonAdapter;
-import com.squareup.moshi.Moshi;
+import com.example.mk0730.alkolmetre.utils.UrlUtils;
 
 public class MainActivity extends AppCompatActivity {
     Button beer_button;
@@ -18,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
     Button wine_button;
     Button search_detail_button;
 
-    NetworkUtils networkUtils = new NetworkUtils();
+    UrlUtils urlUtils = new UrlUtils();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         });
         sprits_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                buildSearch("sprits");
+                buildSearch("spirits");
             }
         });
         search_detail_button.setOnClickListener(new View.OnClickListener() {
@@ -54,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void buildSearch(String category) {
-        String alchoholFilter = networkUtils.setCategory(category).build();
+        String alchoholFilter = urlUtils.setCategory(category).build();
         Intent intent = new Intent(MainActivity.this, AlcoholListActivity.class);
         intent.putExtra(Intent.EXTRA_TEXT, alchoholFilter);
         startActivity(intent);

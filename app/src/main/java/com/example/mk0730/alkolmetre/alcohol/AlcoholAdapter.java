@@ -20,9 +20,14 @@ public class AlcoholAdapter extends RecyclerView.Adapter<AlcoholViewHolder> {
 
     private static List<LcboApiResponseResult> alcohols = new ArrayList<>();
     private ListItemClickListener onClickListener;
+    private int totalItemCount;
+    private OnBottomReachedListener onBottomReachedListener;
+    private Boolean isFinalPage = false;
 
-    public AlcoholAdapter(ListItemClickListener listener) {
-        onClickListener = listener;
+    public AlcoholAdapter(ListItemClickListener onClickListener,
+                          OnBottomReachedListener onBottomReachedListener) {
+        this.onClickListener = onClickListener;
+        this.onBottomReachedListener = onBottomReachedListener;
     }
 
     @NonNull
@@ -39,6 +44,9 @@ public class AlcoholAdapter extends RecyclerView.Adapter<AlcoholViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull AlcoholViewHolder alcoholViewHolder, int i) {
+        if (i == alcohols.size() - 1 && !isFinalPage){
+            onBottomReachedListener.onBottomReached();
+        }
         alcoholViewHolder.bind(alcohols.get(i));
     }
 
@@ -58,7 +66,18 @@ public class AlcoholAdapter extends RecyclerView.Adapter<AlcoholViewHolder> {
         else {
             alcohols = response.getResult();
         }
+        this.totalItemCount = response.getPager().getTotalRecordCount();
+        this.isFinalPage = response.getPager().getIsFinalPage();
 
+        notifyDataSetChanged();
+    }
+
+    public int getTotalItemCount() {
+        return totalItemCount;
+    }
+
+    public void clear(){
+        alcohols.clear();
         notifyDataSetChanged();
     }
 }
