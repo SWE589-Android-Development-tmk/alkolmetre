@@ -1,7 +1,9 @@
 package com.example.mk0730.alkolmetre.tasks;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.mk0730.alkolmetre.alcohol.AlcoholAdapter;
 import com.example.mk0730.alkolmetre.lcbo.LcboApiResponse;
@@ -18,13 +20,15 @@ import java.net.URL;
 public class LcboApiTask extends AsyncTask<String, Void, String> {
     private AlcoholAdapter adapter;
     private AsyncTaskCompleted completed;
+    private Context applicationContext;
 
     public LcboApiTask(AlcoholAdapter adapter) {
         this.adapter = adapter;
     }
 
-    public LcboApiTask(AlcoholAdapter adapter, AsyncTaskCompleted completed) {
+    public LcboApiTask(AlcoholAdapter adapter, Context applicationContext, AsyncTaskCompleted completed) {
         this.adapter = adapter;
+        this.applicationContext = applicationContext;
         this.completed = completed;
     }
 
@@ -55,6 +59,7 @@ public class LcboApiTask extends AsyncTask<String, Void, String> {
                 }
             }
         } catch (IOException e) {
+            Toast.makeText(applicationContext, e.toString(), Toast.LENGTH_LONG);
             Log.e("LcboApiTask", "Error ", e);
         } finally{
             if (urlConnection != null) {

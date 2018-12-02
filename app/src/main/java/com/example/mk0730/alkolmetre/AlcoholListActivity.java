@@ -73,7 +73,7 @@ public class AlcoholListActivity extends AppCompatActivity
     }
 
     private void executeApiTask() {
-        LcboApiTask lcboApiTask = new LcboApiTask(adapter, new AsyncTaskCompleted() {
+        LcboApiTask lcboApiTask = new LcboApiTask(adapter, getApplicationContext(), new AsyncTaskCompleted() {
             @Override
             public void completed() {
                 resultTextView.setText(String.format(getString(R.string.txt_alcohol_list_results),

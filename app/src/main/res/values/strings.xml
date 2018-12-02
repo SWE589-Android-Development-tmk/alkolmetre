@@ -26,6 +26,9 @@
     <string name="detail_activity_alcohol_percentage">Alcohol Percentage: </string>
     <string name="detail_activity_sugar_content">Sugar Content: </string>
     <string name="detail_activity_release_date">Release Date: </string>
+    <string name="is_discontinued">is_discontinued</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
     <string-array name="categories">
         <item>No category</item>
@@ -33,7 +36,4 @@
         <item>Wine</item>
         <item>Spirit</item>
     </string-array>
-    <string name="is_discontinued">is_discontinued</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
 </resources>

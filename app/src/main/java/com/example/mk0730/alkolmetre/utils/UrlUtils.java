@@ -109,12 +109,18 @@ public class UrlUtils {
      * @return The url to use to query the weather server.
      */
     public static URL buildUrl(AlcoholFilter alcoholFilter, int page) throws MalformedURLException {
+        Uri.Builder uriBuilder = Uri.parse(LCBO_BASE_URL).buildUpon()
+                .appendQueryParameter(PARAM_PAGE, String.valueOf(page));
+
         String query = "";
         if (alcoholFilter.getCategory() != null && !alcoholFilter.getCategory().isEmpty()){
             query = alcoholFilter.getCategory() + "+";
         }
         if (alcoholFilter.getSearch() != null && !alcoholFilter.getSearch().isEmpty()){
             query += alcoholFilter.getSearch();
+        }
+        if (!"".equals(query)){
+            uriBuilder = uriBuilder.appendQueryParameter(PARAM_QUERY, query);
         }
 
         String where = "";
@@ -123,6 +129,9 @@ public class UrlUtils {
         }
         if (alcoholFilter.getIs_vqa()){
             where += "is_vqa";
+        }
+        if (!"".equals(where)){
+            uriBuilder = uriBuilder.appendQueryParameter(PARAM_WHERE, where);
         }
 
         String sort = "";
@@ -135,13 +144,11 @@ public class UrlUtils {
         if (alcoholFilter.getOrder_price_per_liter()){
             sort += "price_per_liter_of_alcohol_in_cent";
         }
+        if (!"".equals(sort)){
+            uriBuilder = uriBuilder.appendQueryParameter(PARAM_SORT, sort);
+        }
 
-        Uri buildUri = Uri.parse(LCBO_BASE_URL).buildUpon()
-                .appendQueryParameter(PARAM_QUERY, query)
-                .appendQueryParameter(PARAM_PAGE, String.valueOf(page))
-                .appendQueryParameter(PARAM_WHERE, where)
-                .appendQueryParameter(PARAM_SORT, sort)
-                .build();
+        Uri buildUri = uriBuilder.build();
 
         url = new URL(buildUri.toString());
         return url;

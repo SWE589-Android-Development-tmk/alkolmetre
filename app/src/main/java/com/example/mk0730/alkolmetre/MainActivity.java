@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         });
         sprits_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                buildSearch("sprits");
+                buildSearch("spirits");
             }
         });
         search_detail_button.setOnClickListener(new View.OnClickListener() {
@@ -82,7 +82,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         intent.putExtra(Intent.EXTRA_TEXT, alchoholFilter);
         startActivity(intent);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -26,6 +26,9 @@
     <string name="detail_activity_alcohol_percentage">Alkol Orani: </string>
     <string name="detail_activity_sugar_content">Şeker İçeriği: </string>
     <string name="detail_activity_release_date">Çıkış Tarihi: </string>
+    <string name="is_discontinued">is_discontinued</string>
+    <string name="yes">Evet</string>
+    <string name="no">Hayır</string>
 
     <string-array name="categories">
         <item>Kategori yok</item>
