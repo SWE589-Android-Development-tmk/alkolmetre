@@ -2,13 +2,9 @@ package com.example.mk0730.alkolmetre;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,11 +12,6 @@ import android.widget.Toast;
 import com.example.mk0730.alkolmetre.alcohol.AlcoholAdapter;
 import com.example.mk0730.alkolmetre.lcbo.LcboApiResponseResult;
 import com.example.mk0730.alkolmetre.tasks.DownloadImageTask;
-import com.example.mk0730.alkolmetre.tasks.LcboApiTask;
-import com.example.mk0730.alkolmetre.utils.NetworkUtils;
-
-import java.io.IOException;
-import java.net.URL;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -48,18 +39,31 @@ public class DetailActivity extends AppCompatActivity {
         txtAlcoholPercentage = (TextView) findViewById(R.id.txt_alcohol_percentage);
 
         Intent intent = getIntent();
-        if (intent.hasExtra(Intent.EXTRA_TEXT)){
+        if (intent.hasExtra(Intent.EXTRA_TEXT)) {
             try {
                 int clickedIndex = intent.getIntExtra(Intent.EXTRA_TEXT, -1);
                 LcboApiResponseResult lcboApiResponseResult = AlcoholAdapter.getItem(clickedIndex);
 
                 /*Load Details*/
+                String alcoholContent = getString(R.string.detail_activity_alcohol_percentage)
+                        + (lcboApiResponseResult.getAlcoholContent() / 100.0) + "%";
+
+                String releaseDate = getString(R.string.detail_activity_release_date);
+                if (lcboApiResponseResult.getReleasedOn() != null) {
+                    releaseDate += lcboApiResponseResult.getReleasedOn().toString();
+                }
+
+                String sugarContent = getString(R.string.detail_activity_sugar_content);
+                if (lcboApiResponseResult.getSugarContent() != null) {
+                    sugarContent += lcboApiResponseResult.getSugarContent().toString();
+                }
+
                 txtAlcoholName.setText(lcboApiResponseResult.getName());
                 txtAlcoholOrigin.setText(lcboApiResponseResult.getOrigin());
                 txtAlcoholDescription.setText(lcboApiResponseResult.getTastingNote());
-                txtReleaseDate.setText("");
-                txtSugarContent.setText("");
-                txtAlcoholPercentage.setText(lcboApiResponseResult.getAlcoholContent().toString());
+                txtReleaseDate.setText(releaseDate);
+                txtSugarContent.setText(sugarContent);
+                txtAlcoholPercentage.setText(alcoholContent);
 
                 new DownloadImageTask(this.imgAlcohol).execute(lcboApiResponseResult.getImageUrl());
             } catch (Throwable e) {

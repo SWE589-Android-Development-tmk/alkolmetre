@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">Alkolmetre</string>
+    <string name="error_message">Uzak sunucudan cevap alınamadı!</string>
+    <string name="settings">Ayarlar</string>
+    <string name="logout">Çıkış</string>
+    <string name="category">Kategoriler</string>
+    <string name="beer">BİRA</string>
+    <string name="wine">ŞARAP</string>
+    <string name="sprits">VİSKİ</string>
+    <string name="search_in_detail">Detaylı Ara</string>
+    <string name="title_activity_alcohol_list">Sonuçlar</string>
+    <string name="txt_alcohol_list_results">%d adet sonuç bulduk</string>
+    <string name="title_activity_search_in_detail">Detaylı Arama</string>
+    <string name="search_in_detail_header_filter">Filtreleme</string>
+    <string name="search_in_detail_header_order">Sıralama</string>
+    <string name="search_in_detail_toggle_is_discontinued">is_discontinued</string>
+    <string name="search_in_detail_toggle_is_vqa">is_vqa</string>
+    <string name="search_in_detail_toggle_price">Ücret</string>
+    <string name="search_in_detail_toggle_alcohol_content">Alkol İçeriği</string>
+    <string name="search_in_detail_toggle_price_per_liter">Litre Başına Ücret</string>
+    <string name="title_activity_detail">Detaylar</string>
+    <string name="details">Detaylar</string>
+    <string name="product_details">Ürün Detayları</string>
+    <string name="search_in_detail_search">Ara</string>
+    <string name="search_in_detail_select_category">Bir kategori seçiniz</string>
+    <string name="detail_activity_alcohol_percentage">Alkol Orani: </string>
+    <string name="detail_activity_sugar_content">Şeker İçeriği: </string>
+    <string name="detail_activity_release_date">Çıkış Tarihi: </string>
+    <string name="is_discontinued">is_discontinued</string>
+    <string name="yes">Evet</string>
+    <string name="no">Hayır</string>
+
+    <string-array name="categories">
+        <item>Kategori yok</item>
+        <item>Bira</item>
+        <item>Şarap</item>
+        <item>Viski</item>
+    </string-array>
+</resources>

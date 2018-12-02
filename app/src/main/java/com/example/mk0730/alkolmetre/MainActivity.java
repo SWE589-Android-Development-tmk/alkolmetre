@@ -11,9 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ToggleButton;
 
-import com.example.mk0730.alkolmetre.utils.NetworkUtils;
-import com.squareup.moshi.JsonAdapter;
-import com.squareup.moshi.Moshi;
+import com.example.mk0730.alkolmetre.utils.UrlUtils;
 
 public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
     Button beer_button;
@@ -21,13 +19,12 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     Button wine_button;
     Button search_detail_button;
 
+    UrlUtils urlUtils = new UrlUtils();
     Boolean is_discontinued;
     Boolean is_vqa;
     Boolean order_price;
     Boolean order_alcohol_content;
     Boolean order_price_per_liter;
-
-    NetworkUtils networkUtils = new NetworkUtils();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         });
         sprits_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                buildSearch("sprits");
+                buildSearch("spirits");
             }
         });
         search_detail_button.setOnClickListener(new View.OnClickListener() {
@@ -80,12 +77,11 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     }
 
     public void buildSearch(String category) {
-        String alchoholFilter = networkUtils.setCategory(category).build();
+        String alchoholFilter = urlUtils.setCategory(category).build();
         Intent intent = new Intent(MainActivity.this, AlcoholListActivity.class);
         intent.putExtra(Intent.EXTRA_TEXT, alchoholFilter);
         startActivity(intent);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
