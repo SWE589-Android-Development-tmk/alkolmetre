@@ -10,10 +10,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mk0730.alkolmetre.alcohol.AlcoholAdapter;
+import com.example.mk0730.alkolmetre.base.BaseActivity;
 import com.example.mk0730.alkolmetre.lcbo.LcboApiResponseResult;
 import com.example.mk0730.alkolmetre.tasks.DownloadImageTask;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends BaseActivity  {
 
     ImageView imgAlcohol;
     TextView txtAlcoholName;

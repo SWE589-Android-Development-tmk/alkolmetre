@@ -11,9 +11,10 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.ToggleButton;
 
+import com.example.mk0730.alkolmetre.base.BaseActivity;
 import com.example.mk0730.alkolmetre.utils.UrlUtils;
 
-public class SearchInDetailActivity extends AppCompatActivity {
+public class SearchInDetailActivity extends BaseActivity {
 
     Spinner categoriesSpinner;
     ToggleButton isDiscontinuedToggle;
@@ -39,6 +40,12 @@ public class SearchInDetailActivity extends AppCompatActivity {
         pricePerLiterToggle = (ToggleButton) findViewById(R.id.toggle_button_price_per_liter);
         searchButton = (Button) findViewById(R.id.search_in_details_button);
         searchText = (EditText) findViewById(R.id.search);
+
+        isDiscontinuedToggle.setChecked(this.is_discontinued);
+        isVqaToggle.setChecked(this.is_vqa);
+        priceToggle.setChecked(this.order_price);
+        alcoholContentToggle.setChecked(this.order_alcohol_content);
+        pricePerLiterToggle.setChecked(this.order_price_per_liter);
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
