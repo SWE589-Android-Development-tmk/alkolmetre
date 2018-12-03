@@ -20,4 +20,11 @@
         android:key="order_price_per_liter"
         android:title="Price per Liter">
     </SwitchPreference>
+
+    <ListPreference
+        android:key="language_preference"
+        android:title="Language"
+        android:entries="@array/Languages"
+        android:entryValues="@array/language_values">
+    </ListPreference>
 </PreferenceScreen>

@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.example.mk0730.alkolmetre.alcohol.AlcoholAdapter;
 import com.example.mk0730.alkolmetre.alcohol.ListItemClickListener;
 import com.example.mk0730.alkolmetre.alcohol.OnBottomReachedListener;
+import com.example.mk0730.alkolmetre.base.BaseActivity;
 import com.example.mk0730.alkolmetre.tasks.AsyncTaskCompleted;
 import com.example.mk0730.alkolmetre.tasks.LcboApiTask;
 import com.example.mk0730.alkolmetre.utils.UrlUtils;
@@ -21,7 +22,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class AlcoholListActivity extends AppCompatActivity
+public class AlcoholListActivity extends BaseActivity
         implements ListItemClickListener, OnBottomReachedListener {
 
     AlcoholFilter alcoholFilter;
