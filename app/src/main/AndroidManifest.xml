@@ -40,7 +40,14 @@
         <activity
             android:name=".DetailActivity"
             android:label="@string/title_activity_detail"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <provider
+            android:name=".db.ProductContentProvider"
+            android:authorities="com.example.mk0730.alkolmetre"
+            android:enabled="true"
+            android:exported="true" />
+
     </application>
 
 </manifest>

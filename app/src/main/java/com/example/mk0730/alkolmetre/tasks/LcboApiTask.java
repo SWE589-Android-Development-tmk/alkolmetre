@@ -1,11 +1,18 @@
 package com.example.mk0730.alkolmetre.tasks;
 
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.example.mk0730.alkolmetre.alcohol.AlcoholAdapter;
+import com.example.mk0730.alkolmetre.db.model.ApiQuery;
+import com.example.mk0730.alkolmetre.db.model.ApiQueryResult;
 import com.example.mk0730.alkolmetre.lcbo.LcboApiResponse;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
@@ -21,31 +28,42 @@ public class LcboApiTask extends AsyncTask<String, Void, String> {
     private AlcoholAdapter adapter;
     private AsyncTaskCompleted completed;
     private Context applicationContext;
-
-    public LcboApiTask(AlcoholAdapter adapter) {
-        this.adapter = adapter;
-    }
+    private ContentResolver contentResolver;
 
     public LcboApiTask(AlcoholAdapter adapter, Context applicationContext, AsyncTaskCompleted completed) {
         this.adapter = adapter;
         this.applicationContext = applicationContext;
         this.completed = completed;
+        this.contentResolver = applicationContext.getContentResolver();
     }
 
     @Override
     protected String doInBackground(String... strings) {
-        HttpURLConnection urlConnection   = null;
-        BufferedReader reader          = null;
-        String 		      forecastJsonStr = null;
+        HttpURLConnection urlConnection = null;
+        BufferedReader reader = null;
+        String forecastJsonStr = null;
 
         try {
             URL url = new URL(strings[0]);
-            urlConnection  = (HttpURLConnection) url.openConnection();
+
+            /* Check whether this URL was registered in DB or not */
+            Cursor curQuery = this.contentResolver.query(ApiQuery.CONTENT_URI,
+                    null, "query",
+                    new String[]{url.toString()}, null);
+            if (curQuery.getCount() > 0){
+                /* This query was saved before */
+                curQuery.moveToFirst();
+                long id = curQuery.getLong(curQuery.getColumnIndex("id"));
+                Cursor curResult = this.contentResolver.query(ApiQueryResult.CONTENT_URI, null,
+                        "apiQueryId", new String[]{String.valueOf(id)}, null);
+            }
+
+            urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
             urlConnection.connect();
 
             InputStream inputStream = urlConnection.getInputStream();
-            StringBuffer buffer     = new StringBuffer();
+            StringBuffer buffer = new StringBuffer();
 
             if (inputStream != null) {
                 reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -61,7 +79,7 @@ public class LcboApiTask extends AsyncTask<String, Void, String> {
         } catch (IOException e) {
             Toast.makeText(applicationContext, e.toString(), Toast.LENGTH_LONG);
             Log.e("LcboApiTask", "Error ", e);
-        } finally{
+        } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
             }
@@ -88,8 +106,7 @@ public class LcboApiTask extends AsyncTask<String, Void, String> {
             if (completed != null) {
                 this.completed.completed();
             }
-        }
-        catch (Throwable e) {
+        } catch (Throwable e) {
             Log.v("LcboApiTask", e.getMessage());
         }
     }
