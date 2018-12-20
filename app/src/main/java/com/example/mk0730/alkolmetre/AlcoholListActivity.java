@@ -1,7 +1,13 @@
 package com.example.mk0730.alkolmetre;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +20,7 @@ import com.example.mk0730.alkolmetre.alcohol.AlcoholAdapter;
 import com.example.mk0730.alkolmetre.alcohol.ListItemClickListener;
 import com.example.mk0730.alkolmetre.alcohol.OnBottomReachedListener;
 import com.example.mk0730.alkolmetre.base.BaseActivity;
+import com.example.mk0730.alkolmetre.db.model.ApiQuery;
 import com.example.mk0730.alkolmetre.tasks.AsyncTaskCompleted;
 import com.example.mk0730.alkolmetre.tasks.LcboApiTask;
 import com.example.mk0730.alkolmetre.utils.UrlUtils;
@@ -23,7 +30,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class AlcoholListActivity extends BaseActivity
-        implements ListItemClickListener, OnBottomReachedListener {
+        implements ListItemClickListener, OnBottomReachedListener,
+        LoaderManager.LoaderCallbacks<Cursor> {
+    public static final int LOADER = 0;
 
     AlcoholFilter alcoholFilter;
     AlcoholAdapter adapter;
@@ -62,7 +71,9 @@ public class AlcoholListActivity extends BaseActivity
                     alcoholFilter = UrlUtils.parse(json);
                     url = UrlUtils.buildUrl(alcoholFilter, page);
 
-                    executeApiTask();
+                    //executeApiTask();
+                    getLoaderManager().initLoader(LOADER, null,
+                            (android.app.LoaderManager.LoaderCallbacks<Cursor>) this);
                 } catch (IOException e) {
                     Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                     Log.v("AlcoholActivity", e.getMessage());
@@ -105,5 +116,27 @@ public class AlcoholListActivity extends BaseActivity
         } catch (MalformedURLException e) {
             Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG);
         }
+    }
+
+    @NonNull
+    @Override
+    public Loader<Cursor> onCreateLoader(int i, @Nullable Bundle bundle) {
+        /* Should be getting all records. */
+        CursorLoader query = new CursorLoader(this, ApiQuery.CONTENT_URI,
+                new String[]{"*"},
+                "query",
+                new String[]{url.toString()},
+                null);
+        return query;
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor cursor) {
+
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
+        adapter.swapCursor(null, false, 0);
     }
 }

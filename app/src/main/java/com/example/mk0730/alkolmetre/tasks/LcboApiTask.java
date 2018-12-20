@@ -101,7 +101,8 @@ public class LcboApiTask extends AsyncTask<String, Void, String> {
 
         try {
             LcboApiResponse response = parse(result);
-            adapter.setAlcohols(response);
+
+            //adapter.setAlcohols(response);
 
             if (completed != null) {
                 this.completed.completed();
