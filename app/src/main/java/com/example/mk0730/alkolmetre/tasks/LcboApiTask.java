@@ -1,19 +1,16 @@
 package com.example.mk0730.alkolmetre.tasks;
 
 import android.content.ContentResolver;
-import android.content.ContentUris;
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.example.mk0730.alkolmetre.alcohol.AlcoholAdapter;
-import com.example.mk0730.alkolmetre.db.model.ApiQuery;
-import com.example.mk0730.alkolmetre.db.model.ApiQueryResult;
+import com.example.mk0730.alkolmetre.data.FavoriteContract.FavoriteEntry;
 import com.example.mk0730.alkolmetre.lcbo.LcboApiResponse;
+import com.example.mk0730.alkolmetre.lcbo.LcboApiResponseResult;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 
@@ -45,18 +42,6 @@ public class LcboApiTask extends AsyncTask<String, Void, String> {
 
         try {
             URL url = new URL(strings[0]);
-
-            /* Check whether this URL was registered in DB or not */
-            Cursor curQuery = this.contentResolver.query(ApiQuery.CONTENT_URI,
-                    null, "query",
-                    new String[]{url.toString()}, null);
-            if (curQuery.getCount() > 0){
-                /* This query was saved before */
-                curQuery.moveToFirst();
-                long id = curQuery.getLong(curQuery.getColumnIndex("id"));
-                Cursor curResult = this.contentResolver.query(ApiQueryResult.CONTENT_URI, null,
-                        "apiQueryId", new String[]{String.valueOf(id)}, null);
-            }
 
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
@@ -95,6 +80,23 @@ public class LcboApiTask extends AsyncTask<String, Void, String> {
         return forecastJsonStr;
     }
 
+    private void checkFavoriteAndSetId(LcboApiResponseResult lcboResult) {
+        Cursor query = contentResolver.query(
+                FavoriteEntry.buildFavoriteWithAPIId(lcboResult.getId()),
+                new String[]{FavoriteEntry._ID},
+                FavoriteEntry._ID,
+                new String[]{lcboResult.getId().toString()},
+                null);
+
+        lcboResult.setFavorite(false);
+        if (query.getCount() > 0) {
+            query.moveToFirst();
+            lcboResult.setFavoriteId(query.getInt(0));
+            lcboResult.setFavorite(true);
+        }
+        query.close();
+    }
+
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
@@ -102,7 +104,12 @@ public class LcboApiTask extends AsyncTask<String, Void, String> {
         try {
             LcboApiResponse response = parse(result);
 
-            //adapter.setAlcohols(response);
+            for (int i=0; i<response.getResult().size(); i++) {
+                LcboApiResponseResult lcboResult = response.getResult().get(i);
+                checkFavoriteAndSetId(lcboResult);
+            }
+
+            adapter.setAlcohols(response);
 
             if (completed != null) {
                 this.completed.completed();

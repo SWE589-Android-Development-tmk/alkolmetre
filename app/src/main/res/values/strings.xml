@@ -36,4 +36,7 @@
         <item>Wine</item>
         <item>Spirit</item>
     </string-array>
+
+    <string name="title_activity_favorite">Favorites</string>
+    <string name="favorites">My Favorites</string>
 </resources>

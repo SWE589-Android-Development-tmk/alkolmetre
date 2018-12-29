@@ -1,14 +1,9 @@
 package com.example.mk0730.alkolmetre;
 
+import android.annotation.SuppressLint;
+import android.content.ContentResolver;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -20,7 +15,6 @@ import com.example.mk0730.alkolmetre.alcohol.AlcoholAdapter;
 import com.example.mk0730.alkolmetre.alcohol.ListItemClickListener;
 import com.example.mk0730.alkolmetre.alcohol.OnBottomReachedListener;
 import com.example.mk0730.alkolmetre.base.BaseActivity;
-import com.example.mk0730.alkolmetre.db.model.ApiQuery;
 import com.example.mk0730.alkolmetre.tasks.AsyncTaskCompleted;
 import com.example.mk0730.alkolmetre.tasks.LcboApiTask;
 import com.example.mk0730.alkolmetre.utils.UrlUtils;
@@ -30,16 +24,19 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class AlcoholListActivity extends BaseActivity
-        implements ListItemClickListener, OnBottomReachedListener,
-        LoaderManager.LoaderCallbacks<Cursor> {
+        implements ListItemClickListener, OnBottomReachedListener {
     public static final int LOADER = 0;
 
     AlcoholFilter alcoholFilter;
     AlcoholAdapter adapter;
     TextView resultTextView;
+
+    ContentResolver contentResolver;
+
     URL url;
     int page = 1;
 
+    @SuppressLint("ShowToast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +45,7 @@ public class AlcoholListActivity extends BaseActivity
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
 
+            contentResolver = getContentResolver();
             resultTextView = (TextView) findViewById(R.id.txt_results_information);
 
             /* Load recyclerView */
@@ -60,8 +58,7 @@ public class AlcoholListActivity extends BaseActivity
             //        layoutManager.getOrientation());
             //recyclerView.addItemDecoration(dividerItemDecoration);
 
-            adapter = new AlcoholAdapter(this, this);
-            adapter.clear();
+            adapter = new AlcoholAdapter(this, this, getContentResolver());
             recyclerView.setAdapter(adapter);
 
             Intent intent = getIntent();
@@ -70,10 +67,7 @@ public class AlcoholListActivity extends BaseActivity
                 try {
                     alcoholFilter = UrlUtils.parse(json);
                     url = UrlUtils.buildUrl(alcoholFilter, page);
-
-                    //executeApiTask();
-                    getLoaderManager().initLoader(LOADER, null,
-                            (android.app.LoaderManager.LoaderCallbacks<Cursor>) this);
+                    executeApiTask();
                 } catch (IOException e) {
                     Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                     Log.v("AlcoholActivity", e.getMessage());
@@ -102,11 +96,12 @@ public class AlcoholListActivity extends BaseActivity
         Log.v("MainActivity.onCreate", "Item#"+Integer.toString(clickedItemIndex));
 
         detailActivityIntent = new Intent(AlcoholListActivity.this, DetailActivity.class);
-        detailActivityIntent.putExtra(Intent.EXTRA_TEXT, clickedItemIndex);
+        detailActivityIntent.putExtra("ALCOHOL_ITEM", AlcoholAdapter.getItem(clickedItemIndex));
 
         startActivity(detailActivityIntent);
     }
 
+    @SuppressLint("ShowToast")
     @Override
     public void onBottomReached() {
         try {
@@ -116,27 +111,5 @@ public class AlcoholListActivity extends BaseActivity
         } catch (MalformedURLException e) {
             Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG);
         }
-    }
-
-    @NonNull
-    @Override
-    public Loader<Cursor> onCreateLoader(int i, @Nullable Bundle bundle) {
-        /* Should be getting all records. */
-        CursorLoader query = new CursorLoader(this, ApiQuery.CONTENT_URI,
-                new String[]{"*"},
-                "query",
-                new String[]{url.toString()},
-                null);
-        return query;
-    }
-
-    @Override
-    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor cursor) {
-
-    }
-
-    @Override
-    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
-        adapter.swapCursor(null, false, 0);
     }
 }

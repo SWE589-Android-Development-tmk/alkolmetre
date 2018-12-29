@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import java.util.Locale;
 
 
+import com.example.mk0730.alkolmetre.FavoriteActivity;
 import com.example.mk0730.alkolmetre.MainActivity;
 import com.example.mk0730.alkolmetre.R;
 import com.example.mk0730.alkolmetre.SearchInDetailActivity;
@@ -82,11 +83,15 @@ public class BaseActivity extends AppCompatActivity implements SharedPreferences
     public boolean onOptionsItemSelected(MenuItem item) {
         int selectedItemIndexId = item.getItemId();
         if (selectedItemIndexId == R.id.action_search) {
-            Intent startSettingsActivity = new Intent(this, SettingsActivity.class);
-            startActivity(startSettingsActivity);
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
             return true;
         }
-        // TODO: logout will be implemented in here. else if(selectedItemIndexId = logout)
+        if (selectedItemIndexId == R.id.favorites) {
+            Intent intent = new Intent(this, FavoriteActivity.class);
+            startActivity(intent);
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 }

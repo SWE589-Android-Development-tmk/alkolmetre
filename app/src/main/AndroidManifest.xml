@@ -43,11 +43,15 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <provider
-            android:name=".db.ProductContentProvider"
+            android:name=".data.FavoriteProvider"
             android:authorities="com.example.mk0730.alkolmetre"
             android:enabled="true"
             android:exported="true" />
 
+        <activity
+            android:name=".FavoriteActivity"
+            android:label="@string/title_activity_favorite"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
