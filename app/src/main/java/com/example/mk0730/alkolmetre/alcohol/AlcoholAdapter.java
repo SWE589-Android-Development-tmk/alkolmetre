@@ -1,5 +1,6 @@
 package com.example.mk0730.alkolmetre.alcohol;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -10,8 +11,6 @@ import android.view.ViewGroup;
 import com.example.mk0730.alkolmetre.R;
 import com.example.mk0730.alkolmetre.lcbo.LcboApiResponse;
 import com.example.mk0730.alkolmetre.lcbo.LcboApiResponseResult;
-import com.squareup.moshi.JsonAdapter;
-import com.squareup.moshi.Moshi;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,11 +22,14 @@ public class AlcoholAdapter extends RecyclerView.Adapter<AlcoholViewHolder> {
     private int totalItemCount;
     private OnBottomReachedListener onBottomReachedListener;
     private Boolean isFinalPage = false;
+    private ContentResolver contentResolver;
 
     public AlcoholAdapter(ListItemClickListener onClickListener,
-                          OnBottomReachedListener onBottomReachedListener) {
+                          OnBottomReachedListener onBottomReachedListener,
+                          ContentResolver contentResolver) {
         this.onClickListener = onClickListener;
         this.onBottomReachedListener = onBottomReachedListener;
+        this.contentResolver = contentResolver;
     }
 
     @NonNull
@@ -38,13 +40,13 @@ public class AlcoholAdapter extends RecyclerView.Adapter<AlcoholViewHolder> {
         LayoutInflater inflater = LayoutInflater.from(context);
 
         View view = inflater.inflate(layoutId, viewGroup, false);
-        AlcoholViewHolder viewHolder = new AlcoholViewHolder(view, onClickListener);
+        AlcoholViewHolder viewHolder = new AlcoholViewHolder(view, contentResolver, onClickListener);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull AlcoholViewHolder alcoholViewHolder, int i) {
-        if (i == alcohols.size() - 1 && !isFinalPage){
+        if(i == alcohols.size() - 1 && !isFinalPage){
             onBottomReachedListener.onBottomReached();
         }
         alcoholViewHolder.bind(alcohols.get(i));
@@ -55,29 +57,26 @@ public class AlcoholAdapter extends RecyclerView.Adapter<AlcoholViewHolder> {
         return alcohols.size();
     }
 
-    public static LcboApiResponseResult getItem(int index){
+    public static LcboApiResponseResult getItem(int index) {
         return alcohols.get(index);
     }
 
-    public void setAlcohols(LcboApiResponse response) {
+    public void setAlcohols(LcboApiResponse response){
         if (response == null){
             alcohols.clear();
         }
-        else {
+        else{
             alcohols = response.getResult();
         }
+
         this.totalItemCount = response.getPager().getTotalRecordCount();
         this.isFinalPage = response.getPager().getIsFinalPage();
 
         notifyDataSetChanged();
     }
 
+
     public int getTotalItemCount() {
         return totalItemCount;
-    }
-
-    public void clear(){
-        alcohols.clear();
-        notifyDataSetChanged();
     }
 }

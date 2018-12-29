@@ -1,12 +1,16 @@
 package com.example.mk0730.alkolmetre.tasks;
 
+import android.content.ContentResolver;
 import android.content.Context;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.example.mk0730.alkolmetre.alcohol.AlcoholAdapter;
+import com.example.mk0730.alkolmetre.data.FavoriteContract.FavoriteEntry;
 import com.example.mk0730.alkolmetre.lcbo.LcboApiResponse;
+import com.example.mk0730.alkolmetre.lcbo.LcboApiResponseResult;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 
@@ -21,31 +25,30 @@ public class LcboApiTask extends AsyncTask<String, Void, String> {
     private AlcoholAdapter adapter;
     private AsyncTaskCompleted completed;
     private Context applicationContext;
-
-    public LcboApiTask(AlcoholAdapter adapter) {
-        this.adapter = adapter;
-    }
+    private ContentResolver contentResolver;
 
     public LcboApiTask(AlcoholAdapter adapter, Context applicationContext, AsyncTaskCompleted completed) {
         this.adapter = adapter;
         this.applicationContext = applicationContext;
         this.completed = completed;
+        this.contentResolver = applicationContext.getContentResolver();
     }
 
     @Override
     protected String doInBackground(String... strings) {
-        HttpURLConnection urlConnection   = null;
-        BufferedReader reader          = null;
-        String 		      forecastJsonStr = null;
+        HttpURLConnection urlConnection = null;
+        BufferedReader reader = null;
+        String forecastJsonStr = null;
 
         try {
             URL url = new URL(strings[0]);
-            urlConnection  = (HttpURLConnection) url.openConnection();
+
+            urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
             urlConnection.connect();
 
             InputStream inputStream = urlConnection.getInputStream();
-            StringBuffer buffer     = new StringBuffer();
+            StringBuffer buffer = new StringBuffer();
 
             if (inputStream != null) {
                 reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -61,7 +64,7 @@ public class LcboApiTask extends AsyncTask<String, Void, String> {
         } catch (IOException e) {
             Toast.makeText(applicationContext, e.toString(), Toast.LENGTH_LONG);
             Log.e("LcboApiTask", "Error ", e);
-        } finally{
+        } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
             }
@@ -77,19 +80,41 @@ public class LcboApiTask extends AsyncTask<String, Void, String> {
         return forecastJsonStr;
     }
 
+    private void checkFavoriteAndSetId(LcboApiResponseResult lcboResult) {
+        Cursor query = contentResolver.query(
+                FavoriteEntry.buildFavoriteWithAPIId(lcboResult.getId()),
+                new String[]{FavoriteEntry._ID},
+                FavoriteEntry._ID,
+                new String[]{lcboResult.getId().toString()},
+                null);
+
+        lcboResult.setFavorite(false);
+        if (query.getCount() > 0) {
+            query.moveToFirst();
+            lcboResult.setFavoriteId(query.getInt(0));
+            lcboResult.setFavorite(true);
+        }
+        query.close();
+    }
+
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
 
         try {
             LcboApiResponse response = parse(result);
+
+            for (int i=0; i<response.getResult().size(); i++) {
+                LcboApiResponseResult lcboResult = response.getResult().get(i);
+                checkFavoriteAndSetId(lcboResult);
+            }
+
             adapter.setAlcohols(response);
 
             if (completed != null) {
                 this.completed.completed();
             }
-        }
-        catch (Throwable e) {
+        } catch (Throwable e) {
             Log.v("LcboApiTask", e.getMessage());
         }
     }

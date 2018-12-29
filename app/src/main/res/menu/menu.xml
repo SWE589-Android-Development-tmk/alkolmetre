@@ -8,8 +8,8 @@
         app:showAsAction="collapseActionView">
     </item>
     <item
-        android:id="@+id/logout"
+        android:id="@+id/favorites"
         android:orderInCategory="2"
-        android:title="@string/logout"
+        android:title="@string/favorites"
         app:showAsAction="collapseActionView"></item>
 </menu>

@@ -1,8 +1,9 @@
 package com.example.mk0730.alkolmetre;
 
+import android.annotation.SuppressLint;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -24,13 +25,18 @@ import java.net.URL;
 
 public class AlcoholListActivity extends BaseActivity
         implements ListItemClickListener, OnBottomReachedListener {
+    public static final int LOADER = 0;
 
     AlcoholFilter alcoholFilter;
     AlcoholAdapter adapter;
     TextView resultTextView;
+
+    ContentResolver contentResolver;
+
     URL url;
     int page = 1;
 
+    @SuppressLint("ShowToast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +45,7 @@ public class AlcoholListActivity extends BaseActivity
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
 
+            contentResolver = getContentResolver();
             resultTextView = (TextView) findViewById(R.id.txt_results_information);
 
             /* Load recyclerView */
@@ -51,8 +58,7 @@ public class AlcoholListActivity extends BaseActivity
             //        layoutManager.getOrientation());
             //recyclerView.addItemDecoration(dividerItemDecoration);
 
-            adapter = new AlcoholAdapter(this, this);
-            adapter.clear();
+            adapter = new AlcoholAdapter(this, this, getContentResolver());
             recyclerView.setAdapter(adapter);
 
             Intent intent = getIntent();
@@ -61,7 +67,6 @@ public class AlcoholListActivity extends BaseActivity
                 try {
                     alcoholFilter = UrlUtils.parse(json);
                     url = UrlUtils.buildUrl(alcoholFilter, page);
-
                     executeApiTask();
                 } catch (IOException e) {
                     Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
@@ -91,11 +96,12 @@ public class AlcoholListActivity extends BaseActivity
         Log.v("MainActivity.onCreate", "Item#"+Integer.toString(clickedItemIndex));
 
         detailActivityIntent = new Intent(AlcoholListActivity.this, DetailActivity.class);
-        detailActivityIntent.putExtra(Intent.EXTRA_TEXT, clickedItemIndex);
+        detailActivityIntent.putExtra("ALCOHOL_ITEM", AlcoholAdapter.getItem(clickedItemIndex));
 
         startActivity(detailActivityIntent);
     }
 
+    @SuppressLint("ShowToast")
     @Override
     public void onBottomReached() {
         try {

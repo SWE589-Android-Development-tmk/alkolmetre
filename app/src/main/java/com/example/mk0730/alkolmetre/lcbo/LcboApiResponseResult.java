@@ -3,7 +3,9 @@ package com.example.mk0730.alkolmetre.lcbo;
 
 import com.squareup.moshi.Json;
 
-public class LcboApiResponseResult {
+import java.io.Serializable;
+
+public class LcboApiResponseResult implements Serializable {
 
     @Json(name = "id")
     private Integer id;
@@ -105,6 +107,10 @@ public class LcboApiResponseResult {
     private Boolean hasClearanceSale;
     @Json(name = "product_no")
     private Integer productNo;
+
+    /* The fields are not related to the API response */
+    private Boolean favorite;
+    private int favoriteId;
 
     public Integer getId() {
         return id;
@@ -504,5 +510,21 @@ public class LcboApiResponseResult {
 
     public void setProductNo(Integer productNo) {
         this.productNo = productNo;
+    }
+
+    public Boolean getFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(Boolean favorite) {
+        this.favorite = favorite;
+    }
+
+    public int getFavoriteId() {
+        return favoriteId;
+    }
+
+    public void setFavoriteId(int favoriteId) {
+        this.favoriteId = favoriteId;
     }
 }

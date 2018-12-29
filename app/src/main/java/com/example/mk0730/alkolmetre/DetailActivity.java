@@ -2,14 +2,12 @@ package com.example.mk0730.alkolmetre;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.mk0730.alkolmetre.alcohol.AlcoholAdapter;
 import com.example.mk0730.alkolmetre.base.BaseActivity;
 import com.example.mk0730.alkolmetre.lcbo.LcboApiResponseResult;
 import com.example.mk0730.alkolmetre.tasks.DownloadImageTask;
@@ -40,10 +38,9 @@ public class DetailActivity extends BaseActivity  {
         txtAlcoholPercentage = (TextView) findViewById(R.id.txt_alcohol_percentage);
 
         Intent intent = getIntent();
-        if (intent.hasExtra(Intent.EXTRA_TEXT)) {
+        if (intent.hasExtra("ALCOHOL_ITEM")) {
             try {
-                int clickedIndex = intent.getIntExtra(Intent.EXTRA_TEXT, -1);
-                LcboApiResponseResult lcboApiResponseResult = AlcoholAdapter.getItem(clickedIndex);
+                LcboApiResponseResult lcboApiResponseResult = (LcboApiResponseResult) intent.getSerializableExtra("ALCOHOL_ITEM");
 
                 /*Load Details*/
                 String alcoholContent = getString(R.string.detail_activity_alcohol_percentage)

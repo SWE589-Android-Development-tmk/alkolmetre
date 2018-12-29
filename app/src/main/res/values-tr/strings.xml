@@ -36,4 +36,7 @@
         <item>Şarap</item>
         <item>Viski</item>
     </string-array>
+
+    <string name="title_activity_favorite">Favoriler</string>
+    <string name="favorites">Favorilerim</string>
 </resources>
