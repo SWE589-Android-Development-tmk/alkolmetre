@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <SwitchPreference
+    <SwitchPreferenceCompat
         android:summaryOn="Ascending"
         android:summaryOff="Descending"
         android:key="order_price"
         android:title="Price">
-    </SwitchPreference>
+    </SwitchPreferenceCompat>
 
-    <SwitchPreference
+    <SwitchPreferenceCompat
         android:summaryOn="Ascending"
         android:summaryOff="Descending"
         android:key="order_alcohol_content"
         android:title="Alcohol Content">
-    </SwitchPreference>
+    </SwitchPreferenceCompat>
 
-    <SwitchPreference
+    <SwitchPreferenceCompat
         android:summaryOn="Ascending"
         android:summaryOff="Descending"
         android:key="order_price_per_liter"
         android:title="Price per Liter">
-    </SwitchPreference>
+    </SwitchPreferenceCompat>
 
     <ListPreference
         android:key="language_preference"
