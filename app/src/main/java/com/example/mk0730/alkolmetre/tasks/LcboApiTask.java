@@ -24,12 +24,10 @@ import java.net.URL;
 public class LcboApiTask extends AsyncTask<String, Void, String> {
     private AlcoholAdapter adapter;
     private AsyncTaskCompleted completed;
-    private Context applicationContext;
     private ContentResolver contentResolver;
 
     public LcboApiTask(AlcoholAdapter adapter, Context applicationContext, AsyncTaskCompleted completed) {
         this.adapter = adapter;
-        this.applicationContext = applicationContext;
         this.completed = completed;
         this.contentResolver = applicationContext.getContentResolver();
     }
@@ -62,7 +60,7 @@ public class LcboApiTask extends AsyncTask<String, Void, String> {
                 }
             }
         } catch (IOException e) {
-            Toast.makeText(applicationContext, e.toString(), Toast.LENGTH_LONG);
+            //Toast.makeText(applicationContext, e.toString(), Toast.LENGTH_LONG);
             Log.e("LcboApiTask", "Error ", e);
         } finally {
             if (urlConnection != null) {

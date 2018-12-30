@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <SwitchPreference
+    <SwitchPreferenceCompat
         android:summaryOn="Still Selling"
         android:summaryOff="Not selling anymore"
         android:key="@string/is_discontinued"
         android:title="Discontinued">
-    </SwitchPreference>
+    </SwitchPreferenceCompat>
 
-    <SwitchPreference
+    <SwitchPreferenceCompat
         android:summaryOn="Has vqa"
         android:summaryOff="Has not vqa"
         android:key="is_vqa"
         android:title="Vintners Quality Alliance">
-    </SwitchPreference>
+    </SwitchPreferenceCompat>
 </PreferenceScreen>
