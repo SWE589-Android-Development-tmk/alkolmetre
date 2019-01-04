@@ -1,23 +1,31 @@
 package com.example.mk0730.alkolmetre.base;
 
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
 import java.util.Locale;
 
 
 import com.example.mk0730.alkolmetre.FavoriteActivity;
-import com.example.mk0730.alkolmetre.MainActivity;
 import com.example.mk0730.alkolmetre.R;
-import com.example.mk0730.alkolmetre.SearchInDetailActivity;
 import com.example.mk0730.alkolmetre.SettingsActivity;
+import com.example.mk0730.alkolmetre.scheduler.VisitFavoriteSchedulerService;
 
 public class BaseActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
     public Boolean is_discontinued;
@@ -27,6 +35,8 @@ public class BaseActivity extends AppCompatActivity implements SharedPreferences
     public Boolean order_price_per_liter;
     public String language;
     Locale myLocale;
+    private IntentFilter intentFilter;
+    WifiBroadcastReceiver wifiBroadcastReceiver;
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
@@ -71,6 +81,31 @@ public class BaseActivity extends AppCompatActivity implements SharedPreferences
         setLocale(language);
 
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+
+        /* Register WIFI Broadcast Receiver */
+        this.intentFilter = new IntentFilter();
+        this.intentFilter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
+        this.wifiBroadcastReceiver = new WifiBroadcastReceiver();
+        registerReceiver(this.wifiBroadcastReceiver, this.intentFilter);
+
+        /* Initiate scheduler */
+        JobScheduler jobScheduler = (JobScheduler) getSystemService( Context.JOB_SCHEDULER_SERVICE );
+        JobInfo.Builder builder = new JobInfo.Builder( 1,
+                new ComponentName( getPackageName(), VisitFavoriteSchedulerService.class.getName() ) );
+        builder.setPeriodic(10);
+        jobScheduler.schedule(builder.build());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(this.wifiBroadcastReceiver, this.intentFilter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(this.wifiBroadcastReceiver);
     }
 
     @Override
@@ -93,5 +128,24 @@ public class BaseActivity extends AppCompatActivity implements SharedPreferences
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public class WifiBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+            if (action.equals(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION)) {
+                if (intent.getBooleanExtra(WifiManager.EXTRA_SUPPLICANT_CONNECTED, false)) {
+                    alertWifiStatus("WIFI connected!");
+                } else {
+                    alertWifiStatus("We lost WIFI connection");
+                }
+            }
+        }
+    }
+
+    private void alertWifiStatus(String status){
+        Toast.makeText(this, status, Toast.LENGTH_LONG).show();
     }
 }

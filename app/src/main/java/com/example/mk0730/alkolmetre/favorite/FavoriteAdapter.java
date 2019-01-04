@@ -19,11 +19,11 @@ public class FavoriteAdapter extends RecyclerView.Adapter<AlcoholViewHolder> {
     private static Cursor cursor;
     private ListItemClickListener favoriteOnClickListener;
     private int totalItemCount;
-    private ContentResolver contentResolver;
+    private Context context;
 
-    public FavoriteAdapter(ListItemClickListener favoriteOnClickListener, ContentResolver contentResolver) {
+    public FavoriteAdapter(ListItemClickListener favoriteOnClickListener, Context context) {
         this.favoriteOnClickListener = favoriteOnClickListener;
-        this.contentResolver = contentResolver;
+        this.context = context;
     }
 
     @NonNull
@@ -34,7 +34,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<AlcoholViewHolder> {
         LayoutInflater inflater = LayoutInflater.from(context);
 
         View view = inflater.inflate(layoutId, viewGroup, false);
-        AlcoholViewHolder viewHolder = new AlcoholViewHolder(view, contentResolver, favoriteOnClickListener);
+        AlcoholViewHolder viewHolder = new AlcoholViewHolder(view, context, favoriteOnClickListener);
         return viewHolder;
     }
 

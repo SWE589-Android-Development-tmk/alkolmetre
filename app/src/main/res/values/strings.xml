@@ -39,4 +39,6 @@
 
     <string name="title_activity_favorite">Favorites</string>
     <string name="favorites">My Favorites</string>
+    <string name="visit_favorites_notification_title">Visit your favorites!</string>
+    <string name="visit_favorites_notification_body">What about visiting your favorites again!</string>
 </resources>

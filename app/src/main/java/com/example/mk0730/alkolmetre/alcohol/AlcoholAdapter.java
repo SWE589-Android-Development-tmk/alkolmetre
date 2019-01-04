@@ -22,14 +22,14 @@ public class AlcoholAdapter extends RecyclerView.Adapter<AlcoholViewHolder> {
     private int totalItemCount;
     private OnBottomReachedListener onBottomReachedListener;
     private Boolean isFinalPage = false;
-    private ContentResolver contentResolver;
+    private Context context;
 
     public AlcoholAdapter(ListItemClickListener onClickListener,
                           OnBottomReachedListener onBottomReachedListener,
-                          ContentResolver contentResolver) {
+                          Context context) {
         this.onClickListener = onClickListener;
         this.onBottomReachedListener = onBottomReachedListener;
-        this.contentResolver = contentResolver;
+        this.context = context;
     }
 
     @NonNull
@@ -40,7 +40,7 @@ public class AlcoholAdapter extends RecyclerView.Adapter<AlcoholViewHolder> {
         LayoutInflater inflater = LayoutInflater.from(context);
 
         View view = inflater.inflate(layoutId, viewGroup, false);
-        AlcoholViewHolder viewHolder = new AlcoholViewHolder(view, contentResolver, onClickListener);
+        AlcoholViewHolder viewHolder = new AlcoholViewHolder(view, this.context, onClickListener);
         return viewHolder;
     }
 
@@ -72,7 +72,11 @@ public class AlcoholAdapter extends RecyclerView.Adapter<AlcoholViewHolder> {
         this.totalItemCount = response.getPager().getTotalRecordCount();
         this.isFinalPage = response.getPager().getIsFinalPage();
 
-        notifyDataSetChanged();
+        (new Runnable() {
+            public void run() {
+                notifyDataSetChanged();
+            }
+        }).run();
     }
 
 

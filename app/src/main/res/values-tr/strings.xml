@@ -39,4 +39,6 @@
 
     <string name="title_activity_favorite">Favoriler</string>
     <string name="favorites">Favorilerim</string>
+    <string name="visit_favorites_notification_title">Favorilerini kontrol et!</string>
+    <string name="visit_favorites_notification_body">Favorilerinize tekrar göz atmaya ne dersiniz!</string>
 </resources>
