@@ -42,6 +42,22 @@
             android:text="@string/sprits"
             android:visibility="visible" />
 
+        <Button
+            android:id="@+id/recommend_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="testNotification"
+            android:text="@string/recommend"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/check_my_fav_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/i_feel_lucky"
+            android:onClick="testNotification2"
+            android:visibility="visible" />
+
     </LinearLayout>
 
     <Button

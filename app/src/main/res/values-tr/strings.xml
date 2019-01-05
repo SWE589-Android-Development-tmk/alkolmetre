@@ -41,4 +41,11 @@
     <string name="favorites">Favorilerim</string>
     <string name="visit_favorites_notification_title">Favorilerini kontrol et!</string>
     <string name="visit_favorites_notification_body">Favorilerinize tekrar göz atmaya ne dersiniz!</string>
+    <string name="recommend">Öner</string>
+    <string name="Okay">Tamam!</string>
+    <string name="no_thanks">İstemiyorum</string>
+    <string name="alcohol_reminder">Şanslı Hissediyorum</string>
+    <string name="alcohol_reminder_body">Yeni bir içki bilmek ister misin?</string>
+    <string name="i_feel_lucky">Şanslı hissediyorum!</string>
+
 </resources>

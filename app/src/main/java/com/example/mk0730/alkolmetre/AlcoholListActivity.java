@@ -65,10 +65,11 @@ public class AlcoholListActivity extends BaseActivity
             recyclerView.setAdapter(adapter);
 
             Intent intent = getIntent();
-            if (intent.hasExtra(Intent.EXTRA_TEXT)) {
+            if (intent.hasExtra("ALCOHOL_FILTER")) {
                 String json = intent.getStringExtra(Intent.EXTRA_TEXT);
                 try {
-                    alcoholFilter = UrlUtils.parse(json);
+                    alcoholFilter = (AlcoholFilter) intent.getSerializableExtra("ALCOHOL_FILTER");
+
                     url = UrlUtils.buildUrl(alcoholFilter, page);
                     executeApiTask();
                 } catch (IOException e) {

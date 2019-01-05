@@ -98,16 +98,10 @@ public class LcboIntentService extends IntentService {
         }
     }
 
-    /**
-     * Handle action Foo in the provided background thread with the provided
-     * parameters.
-     */
-    private void handleActionCallApi(String paramUrl, ResultReceiver receiver) {
+    public static LcboApiResponse callApi(String paramUrl){
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
         String json = null;
-
-        Bundle bundle = new Bundle();
 
         try {
             URL url = new URL(paramUrl);
@@ -133,13 +127,7 @@ public class LcboIntentService extends IntentService {
 
             LcboApiResponse response = parse(json);
 
-            for (int i=0; i<response.getResult().size(); i++) {
-                LcboApiResponseResult lcboResult = response.getResult().get(i);
-                checkFavoriteAndSetId(lcboResult);
-            }
-
-            bundle.putSerializable("response", response);
-            receiver.send(STATUS_COMPLETED, bundle);
+            return response;
         } catch (IOException e) {
             //Toast.makeText(applicationContext, e.toString(), Toast.LENGTH_LONG);
             Log.e("LcboApiTask", "Error ", e);
@@ -155,9 +143,27 @@ public class LcboIntentService extends IntentService {
                 }
             }
         }
+        return null;
     }
 
-    private LcboApiResponse parse(String json) throws IOException {
+    /**
+     * Handle action Foo in the provided background thread with the provided
+     * parameters.
+     */
+    private void handleActionCallApi(String paramUrl, ResultReceiver receiver) {
+        Bundle bundle = new Bundle();
+        LcboApiResponse response = callApi(paramUrl);
+
+        for (int i=0; i<response.getResult().size(); i++) {
+            LcboApiResponseResult lcboResult = response.getResult().get(i);
+            checkFavoriteAndSetId(lcboResult);
+        }
+
+        bundle.putSerializable("response", response);
+        receiver.send(STATUS_COMPLETED, bundle);
+    }
+
+    private static LcboApiResponse parse(String json) throws IOException {
         Moshi moshi = new Moshi.Builder().build();
         JsonAdapter<LcboApiResponse> jsonAdapter = moshi.adapter(LcboApiResponse.class);
         LcboApiResponse response = jsonAdapter.fromJson(json);

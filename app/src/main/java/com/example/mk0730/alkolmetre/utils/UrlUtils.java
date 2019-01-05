@@ -3,12 +3,10 @@ package com.example.mk0730.alkolmetre.utils;
 import android.net.Uri;
 
 import com.example.mk0730.alkolmetre.AlcoholFilter;
-import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -90,16 +88,8 @@ public class UrlUtils {
         return this;
     }
 
-    public String build(){
-        JsonAdapter<AlcoholFilter> jsonAdapter = moshi.adapter(AlcoholFilter.class);
-        String alcoholFilter = jsonAdapter.toJson(this.filter);
-        return alcoholFilter;
-    }
-
-    public static AlcoholFilter parse(String json) throws IOException {
-        JsonAdapter<AlcoholFilter> jsonAdapter = moshi.adapter(AlcoholFilter.class);
-        AlcoholFilter alcoholFilter = jsonAdapter.fromJson(json);
-        return alcoholFilter;
+    public AlcoholFilter build(){
+        return this.filter;
     }
 
     /**

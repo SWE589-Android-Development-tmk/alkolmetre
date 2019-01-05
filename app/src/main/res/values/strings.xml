@@ -41,4 +41,10 @@
     <string name="favorites">My Favorites</string>
     <string name="visit_favorites_notification_title">Visit your favorites!</string>
     <string name="visit_favorites_notification_body">What about visiting your favorites again!</string>
+    <string name="recommend">Recommend</string>
+    <string name="Okay">Okay!</string>
+    <string name="no_thanks">No Thanks</string>
+    <string name="alcohol_reminder">I Feel Lucky</string>
+    <string name="alcohol_reminder_body">Do you want to learn a new drink?</string>
+    <string name="i_feel_lucky">I Feel Lucky</string>
 </resources>

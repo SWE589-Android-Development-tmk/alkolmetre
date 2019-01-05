@@ -1,9 +1,6 @@
 package com.example.mk0730.alkolmetre.base;
 
-import android.app.job.JobInfo;
-import android.app.job.JobScheduler;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -19,13 +16,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import java.util.Locale;
-
-
 import com.example.mk0730.alkolmetre.FavoriteActivity;
 import com.example.mk0730.alkolmetre.R;
 import com.example.mk0730.alkolmetre.SettingsActivity;
-import com.example.mk0730.alkolmetre.scheduler.VisitFavoriteSchedulerService;
+import com.example.mk0730.alkolmetre.utils.ReminderUtilities;
+import com.example.mk0730.alkolmetre.utils.ReminderUtilities2;
+
+import java.util.Locale;
 
 public class BaseActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
     public Boolean is_discontinued;
@@ -81,19 +78,14 @@ public class BaseActivity extends AppCompatActivity implements SharedPreferences
         setLocale(language);
 
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+        ReminderUtilities.scheduleRecommendationReminder(this);
+        ReminderUtilities2.scheduleFeelLuckyReminder(this);
 
         /* Register WIFI Broadcast Receiver */
         this.intentFilter = new IntentFilter();
         this.intentFilter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
         this.wifiBroadcastReceiver = new WifiBroadcastReceiver();
         registerReceiver(this.wifiBroadcastReceiver, this.intentFilter);
-
-        /* Initiate scheduler */
-        JobScheduler jobScheduler = (JobScheduler) getSystemService( Context.JOB_SCHEDULER_SERVICE );
-        JobInfo.Builder builder = new JobInfo.Builder( 1,
-                new ComponentName( getPackageName(), VisitFavoriteSchedulerService.class.getName() ) );
-        builder.setPeriodic(10);
-        jobScheduler.schedule(builder.build());
     }
 
     @Override
