@@ -49,7 +49,7 @@ public class FavoriteActivity extends BaseActivity implements
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 
-        adapter = new FavoriteAdapter(this, contentResolver);
+        adapter = new FavoriteAdapter(this, getApplicationContext());
         recyclerView.setAdapter(adapter);
 
         getLoaderManager().initLoader(FORECAST_LOADER, null,this);

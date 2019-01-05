@@ -1,10 +1,11 @@
 
 package com.example.mk0730.alkolmetre.lcbo;
 
+import java.io.Serializable;
 import java.util.List;
 import com.squareup.moshi.Json;
 
-public class LcboApiResponse {
+public class LcboApiResponse implements Serializable {
     @Json(name = "status")
     private Integer status;
     @Json(name = "message")

@@ -1,7 +1,9 @@
 package com.example.mk0730.alkolmetre;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.ImageView;
@@ -10,9 +12,11 @@ import android.widget.Toast;
 
 import com.example.mk0730.alkolmetre.base.BaseActivity;
 import com.example.mk0730.alkolmetre.lcbo.LcboApiResponseResult;
-import com.example.mk0730.alkolmetre.tasks.DownloadImageTask;
+import com.example.mk0730.alkolmetre.service.IntentServiceResultReceiver;
+import com.example.mk0730.alkolmetre.service.LcboIntentService;
 
-public class DetailActivity extends BaseActivity  {
+public class DetailActivity extends BaseActivity
+        implements IntentServiceResultReceiver.Receiver {
 
     ImageView imgAlcohol;
     TextView txtAlcoholName;
@@ -63,7 +67,12 @@ public class DetailActivity extends BaseActivity  {
                 txtSugarContent.setText(sugarContent);
                 txtAlcoholPercentage.setText(alcoholContent);
 
-                new DownloadImageTask(this.imgAlcohol).execute(lcboApiResponseResult.getImageUrl());
+                /* Start service */
+                IntentServiceResultReceiver receiver = new IntentServiceResultReceiver(new Handler());
+                receiver.setReceiver(this);
+                LcboIntentService.startActionDownloadImage(getApplicationContext(),
+                        lcboApiResponseResult.getImageUrl(), receiver);
+                //new DownloadImageTask(this.imgAlcohol).execute(lcboApiResponseResult.getImageUrl());
             } catch (Throwable e) {
                 Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                 Log.v("AlcoholActivity", e.getMessage());
@@ -71,4 +80,9 @@ public class DetailActivity extends BaseActivity  {
         }
     }
 
+    @Override
+    public void onReceiveResult(int resultCode, Bundle resultData) {
+        Bitmap image = (Bitmap) resultData.getParcelable("image");
+        this.imgAlcohol.setImageBitmap(image);
+    }
 }

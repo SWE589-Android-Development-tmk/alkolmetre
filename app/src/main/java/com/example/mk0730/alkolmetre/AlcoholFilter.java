@@ -1,6 +1,8 @@
 package com.example.mk0730.alkolmetre;
 
-public class AlcoholFilter {
+import java.io.Serializable;
+
+public class AlcoholFilter implements Serializable {
     String search;
     String category;
     Boolean is_continued = false;

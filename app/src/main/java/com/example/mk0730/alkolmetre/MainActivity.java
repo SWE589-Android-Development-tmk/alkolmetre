@@ -1,17 +1,13 @@
 package com.example.mk0730.alkolmetre;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ToggleButton;
 
 import com.example.mk0730.alkolmetre.base.BaseActivity;
+import com.example.mk0730.alkolmetre.utils.NotificationUtils;
 import com.example.mk0730.alkolmetre.utils.UrlUtils;
 
 public class MainActivity extends BaseActivity {
@@ -55,9 +51,9 @@ public class MainActivity extends BaseActivity {
     }
 
     public void buildSearch(String category) {
-        String alchoholFilter = urlUtils.setCategory(category).build();
+        AlcoholFilter alcoholFilter = urlUtils.setCategory(category).build();
         Intent intent = new Intent(MainActivity.this, AlcoholListActivity.class);
-        intent.putExtra(Intent.EXTRA_TEXT, alchoholFilter);
+        intent.putExtra("ALCOHOL_FILTER", alcoholFilter);
         startActivity(intent);
     }
 
@@ -65,5 +61,13 @@ public class MainActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    public void testNotification(View view) {
+        NotificationUtils.remindUser(this);
+    }
+
+    public void testNotification2(View view) {
+        NotificationUtils.findRandomAlcohol(this);
     }
 }
