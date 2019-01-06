@@ -47,4 +47,5 @@
     <string name="alcohol_reminder">I Feel Lucky</string>
     <string name="alcohol_reminder_body">Do you want to learn a new drink?</string>
     <string name="i_feel_lucky">I Feel Lucky</string>
+    <string name="notification_buttons">Notification Buttons</string>
 </resources>

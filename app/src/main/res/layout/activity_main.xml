@@ -42,6 +42,15 @@
             android:text="@string/sprits"
             android:visibility="visible" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/notification_buttons"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="30dp"
+            android:layout_margin="10dp" />
+
         <Button
             android:id="@+id/recommend_button"
             android:layout_width="match_parent"
