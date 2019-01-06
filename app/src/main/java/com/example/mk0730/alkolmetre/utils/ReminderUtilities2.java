@@ -14,9 +14,7 @@ import com.firebase.jobdispatcher.Trigger;
 import java.util.concurrent.TimeUnit;
 
 public class ReminderUtilities2 {
-        private static final int REMINDER_INTERVAL_MINUTES = 1;
-        private static final int REMINDER_INTERVAL_SECONDS = (int) (TimeUnit.MINUTES.toSeconds(REMINDER_INTERVAL_MINUTES));
-        private static final int SYNC_FLEXTIME_SECONDS = REMINDER_INTERVAL_SECONDS;
+        private static final int REMINDER_INTERVAL_SECONDS = 20;
 
         private static final String FEEL_LUCKY_JOB_TAG = "feel_lucky_reminder_tag";
         private static boolean sInitialized;
@@ -28,14 +26,10 @@ public class ReminderUtilities2 {
                     /* The Service that will be used to write to preferences */
                     .setService(ReminderFirebaseJobService2.class)
                     .setTag(FEEL_LUCKY_JOB_TAG)
-                    .setLifetime(Lifetime.FOREVER)
                     .setRecurring(true)
-                    .setTrigger(Trigger.executionWindow(
-                            REMINDER_INTERVAL_SECONDS,
-                            REMINDER_INTERVAL_SECONDS + SYNC_FLEXTIME_SECONDS))
-                    .setReplaceCurrent(true)
+                    .setTrigger(Trigger.executionWindow(0, REMINDER_INTERVAL_SECONDS))
                     .build();
-            dispatcher.schedule(constraintReminderJob);
+            dispatcher.mustSchedule(constraintReminderJob);
             sInitialized = true;
         }
     }

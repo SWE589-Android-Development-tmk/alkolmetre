@@ -151,16 +151,21 @@ public class LcboIntentService extends IntentService {
      * parameters.
      */
     private void handleActionCallApi(String paramUrl, ResultReceiver receiver) {
-        Bundle bundle = new Bundle();
-        LcboApiResponse response = callApi(paramUrl);
+        try {
+            Bundle bundle = new Bundle();
+            LcboApiResponse response = callApi(paramUrl);
 
-        for (int i=0; i<response.getResult().size(); i++) {
-            LcboApiResponseResult lcboResult = response.getResult().get(i);
-            checkFavoriteAndSetId(lcboResult);
+            for (int i = 0; i < response.getResult().size(); i++) {
+                LcboApiResponseResult lcboResult = response.getResult().get(i);
+                checkFavoriteAndSetId(lcboResult);
+            }
+
+            bundle.putSerializable("response", response);
+            receiver.send(STATUS_COMPLETED, bundle);
         }
-
-        bundle.putSerializable("response", response);
-        receiver.send(STATUS_COMPLETED, bundle);
+        catch(Exception e){
+            Log.e("LcboApiTask", "Error ", e);
+        }
     }
 
     private static LcboApiResponse parse(String json) throws IOException {
