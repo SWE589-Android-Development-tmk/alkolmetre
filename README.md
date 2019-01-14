@@ -2,4 +2,4 @@
 
 # alkolmetre
 
-[![Demo Alkolmetre]](https://github.com/SWE589-Android-Development-tmk/alkolmetre/blob/master/alkolmetre_ss6.mp4)
+[![Alkolmetre Demo](https://j.gifs.com/86Pxk3.gif)](https://youtu.be/aBxlJ_Jzb3Q)
